@@ -34,17 +34,31 @@ emb.project_template_subjects()
 Following options are available for the Diffusion_Embedding class:
 
 **source_path** (mandatory) - the path where timeseries are stored
+
 **file_template** (mandatory) - format of files to be read in
+
 **subjects** (mandatory) - the changing part of file_template
+
 **output_path** (mandatory) - where to store output files
+
 **diff_time** (optional, default 0 ) - diffusion time
+
 **diff_alpha** (optional, default 0.5) - diffusion operator
+
 **diff_ncomp** (optional, default 10) - number of components to save
+
 **subjects_subset** (optional, default None) - subset of subjects to use for template creation and back projection 
+
 **output_suffix** (optional, default 'embedding') - suffix to add to output filenames 
+
 **ftype** (optional, default 'npy_timeseries') - type of input data
+
 **surf** (optional, default 'fsaverage4') - FreeSurfer template for the data, in calse mwall = True 
+
 **mwall** (optional, default False) - if True, medial wall vertices will be removed from analysis based on surf parameter 
+
 **tp** (optional, default None) - timepoints to extract from timeseries 
+
 **affinity_metric** (optional, default 'correlation') - affinity metric to use between timeseries 
+
 **realign_method** (optional, default 'STATIS') - method of aligning subjects into a common space (basis)
