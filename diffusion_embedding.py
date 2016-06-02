@@ -10,7 +10,7 @@ class Diffusion_Embedding(object):
                  diff_ncomp = 10,
                  subjects_subset = None,
                  output_suffix = 'embedding',
-                 ftype = 'npy_timeseries', 
+                 ftype = 'npy_timeseries',
                  surf = 'fsaverage4',
                  mwall = False,
                  tp = None,
@@ -121,11 +121,10 @@ class Diffusion_Embedding(object):
         nancount = np.sum(np.isnan(self.current_data_))
         infcount = np.sum(np.isinf(self.current_data_))
 
-        print "Found %d NaN and %d Inf values in the timeseries" % (nancount, infcount)
-
         if np.logical_and(nancount == 0, infcount == 0):
             self.current_ok_ = True
         else:
+            print "Found %d NaN and %d Inf values in the timeseries" % (nancount, infcount)
             self.current_ok_ = False
 
     def calculate_affinity(self):
@@ -156,9 +155,16 @@ class Diffusion_Embedding(object):
         self.get_source_files()
         self.embedded_files_ = []
 
+        tdir = os.path.join(self.output_path, 'embeddings')
+
+        if not os.path.isdir(tdir):
+            os.mkdir(tdir)
+
+
+
         for i, s in enumerate(self.subjects):
 
-            f = os.path.join(self.output_path, s + '_' + self.output_suffix + '.npz')
+            f = os.path.join(tdir , s + '_' + self.output_suffix + '.npz')
 
             if os.path.isfile(f):
                 print "Embedding already computed for subject %s, skipping" % s
@@ -178,7 +184,7 @@ class Diffusion_Embedding(object):
 
         if len(self.embedded_files_) == len(self.subjects):
             self.embedding_complete_ = True
-            self.template_files_ = [os.path.join(self.output_path, s + '_' + self.output_suffix + '.npz') for s in self.template_subjects_]
+            self.template_files_ = [os.path.join(tdir, s + '_' + self.output_suffix + '.npz') for s in self.template_subjects_]
         else:
             self.embedding_complete_ = False
 
@@ -348,7 +354,7 @@ class Diffusion_Embedding(object):
         if self.diff_time == 0:
             lambdas = lambdas[1:] / (1 - lambdas[1:])
         else:
-            lambdas = lambdas[1:] ** float(diffusion_time)
+            lambdas = lambdas[1:] ** float(self.diff_time)
         lambda_ratio = lambdas/lambdas[0]
         threshold = max(0.05, lambda_ratio[-1])
 
